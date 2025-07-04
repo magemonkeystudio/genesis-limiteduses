@@ -4,7 +4,7 @@
     <parent>
         <groupId>studio.magemonkey</groupId>
         <artifactId>genesis-parent</artifactId>
-        <version>1.21.5-R0.1</version>
+        <version>1.21.7-R0.1</version>
     </parent>
 
     <artifactId>genesis-limiteduses</artifactId>
@@ -15,7 +15,7 @@
     <repositories>
         <repository>
             <id>sonatype</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
         </repository>
     </repositories>
 </project>
