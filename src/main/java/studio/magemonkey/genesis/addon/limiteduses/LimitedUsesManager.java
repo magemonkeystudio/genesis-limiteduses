@@ -12,10 +12,10 @@ import studio.magemonkey.genesis.managers.ClassManager;
 import java.util.*;
 
 public class LimitedUsesManager {
-    private final LimitedUses                 plugin;
-    private final GenesisAddonStorage         storage;
-    private final HashMap<UUID, List<String>> uses      = new HashMap<>(); //includes cooldowns
-    private final HashMap<UUID, List<String>> cooldowns = new HashMap<>();
+    private final LimitedUses             plugin;
+    private final GenesisAddonStorage     storage;
+    private final Map<UUID, List<String>> uses      = new HashMap<>(); //includes cooldowns
+    private final Map<UUID, List<String>> cooldowns = new HashMap<>();
 
     public LimitedUsesManager(LimitedUses plugin) {
         this.plugin = plugin;
@@ -23,14 +23,14 @@ public class LimitedUsesManager {
         if (storage.containsPath("players")) {
             Genesis.log("[LimitedUses] Seems like you are using an old storage type. Quickly converting your file!");
             for (String key : storage.listKeys("players", true)) { //Convert storage
-                List<String> uses_list = storage.getStringList("players." + key);
-                if (uses_list != null) {
-                    List<String> new_uses_list = new ArrayList<>();
-                    for (String entry : uses_list) {
-                        new_uses_list.add(entry.replace("-", ":"));
+                List<String> usesList = storage.getStringList("players." + key);
+                if (usesList != null) {
+                    List<String> newUsesList = new ArrayList<>();
+                    for (String entry : usesList) {
+                        newUsesList.add(entry.replace("-", ":"));
                     }
 
-                    storage.set("uses." + key, new_uses_list);
+                    storage.set("uses." + key, newUsesList);
                 }
             }
             storage.deleteAll("players");
@@ -91,10 +91,10 @@ public class LimitedUsesManager {
     }
 
     private void loadPlayer(OfflinePlayer player, List<String> uses, List<String> cooldowns) {
-        if (uses != null & !uses.isEmpty()) {
+        if (uses != null && !uses.isEmpty()) {
             this.uses.put(player.getUniqueId(), uses);
         }
-        if (cooldowns != null & !cooldowns.isEmpty()) {
+        if (cooldowns != null && !cooldowns.isEmpty()) {
             this.cooldowns.put(player.getUniqueId(), cooldowns);
         }
     }
@@ -160,12 +160,12 @@ public class LimitedUsesManager {
     public long detectValue(OfflinePlayer p,
                             GenesisShop shop,
                             GenesisBuy buy,
-                            HashMap<UUID, List<String>> map,
+                            Map<UUID, List<String>> map,
                             long def) {
         return detectValue(p, createTag(shop, buy), map, def);
     }
 
-    public long detectValue(OfflinePlayer p, String tag, HashMap<UUID, List<String>> map, long def) {
+    public long detectValue(OfflinePlayer p, String tag, Map<UUID, List<String>> map, long def) {
         if (map.containsKey(p.getUniqueId())) {
             List<String> used = map.get(p.getUniqueId());
             for (String entry : used) {
@@ -183,7 +183,7 @@ public class LimitedUsesManager {
         return def;
     }
 
-    public boolean resetValue(OfflinePlayer p, GenesisShop shop, GenesisBuy buy, HashMap<UUID, List<String>> map) {
+    public boolean resetValue(OfflinePlayer p, GenesisShop shop, GenesisBuy buy, Map<UUID, List<String>> map) {
         if (map.containsKey(p.getUniqueId())) {
             String       tag  = createTag(shop, buy);
             List<String> used = map.get(p.getUniqueId());
@@ -216,7 +216,7 @@ public class LimitedUsesManager {
     public void progressValue(OfflinePlayer p,
                               GenesisShop shop,
                               GenesisBuy buy,
-                              HashMap<UUID, List<String>> map,
+                              Map<UUID, List<String>> map,
                               long value) {
         if (!map.containsKey(p.getUniqueId())) {
             map.put(p.getUniqueId(), new ArrayList<>());
